@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration Form</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url("background-image.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 300px;
+            padding: 20px;
+        }
+        .form-container {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 50px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            width: 400px;
+            animation: slideIn 0.5s forwards;
+        }
+
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            text-align: center;
+            color: #4A148C;
+            font-size: 1.8em;
+            margin-bottom: 25px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        label {
+            display: block;
+            margin-top: 12px;
+            font-weight: bold;
+            color: #555;
+        }
+        input[type="text"], input[type="email"], input[type="password"], select, input[type="date"] {
+            width: 100%;
+            padding: 12px;
+            margin-top: 5px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            transition: border-color 0.3s;
+        }
+        input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus, select:focus, input[type="date"]:focus {
+            border-color: #4A148C;
+        }
+        .radio-group {
+            margin-top: 10px;
+        }
+        input[type="radio"] {
+            margin-right: 5px;
+        }
+        input[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            background-color: #4A148C;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 25px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        input[type="submit"]:hover {
+            background-color: #7B1FA2;
+            transform: scale(1.05);
+        }
+
+        #profilePreview {
+            margin-top: 20px;
+            max-width: 150px; 
+            max-height: 150px;
+            display: none;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 2px solid #4A148C;
+        }
+
+        .success-message {
+            color: #4A148C;
+            margin-top: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        @media (max-width: 500px) {
+            .form-container {
+                width: 90%;
+                padding: 30px;
+            }
+            h2 {
+                font-size: 1.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <h2>Student Registration</h2>
+        <form id="registrationForm" onsubmit="return handleFormSubmit(event);">
+            <label for="first_name">Name</label>
+            <input type="text" name="name" placeholder="Enter your name" required>
+
+            <label for="profile_pic">Profile Picture</label>
+            <input type="file" id="profile_pic" name="profile_pic" accept="image/*" required>
+
+            <img id="profilePreview" src="" alt="Profile Picture Preview">
+
+            <label for="father_name">Father Name</label>
+            <input type="text" name="father_name" placeholder="Enter your Father name" required>
+
+            <label for="mother_name">Mother Name</label>
+            <input type="text" name="mother_name" placeholder="Enter your Mother name" required>
+
+            <label for="department_name">Department Name</label>
+            <select id="department_name" name="department_name">
+                <option value="CHOOSE">CHOOSE</option>
+                <option value="CSBS">CSBS</option>
+                <option value="CSD">CSD</option>
+                <option value="CSE">CSE</option>
+                <option value="AIDS">AIDS</option>
+            </select>
+            
+            <div class="radio-group">
+                <p>Year</p>
+                <label for="year1">
+                    <input type="radio" id="year1" name="year" value="1" required> 1
+                </label>
+                <label for="year2">
+                    <input type="radio" id="year2" name="year" value="2" required> 2
+                </label>
+                <label for="year3">
+                    <input type="radio" id="year3" name="year" value="3" required> 3
+                </label>
+                <label for="year4">
+                    <input type="radio" id="year4" name="year" value="4" required> 4
+                </label>
+            </div>
+
+            <label for="dob">Date of birth</label>
+            <input type="date" name="dob" placeholder="Enter the DOB" required>
+
+            <label for="email">Email ID</label>
+            <input type="email" name="email" placeholder="Enter your email" required>
+
+            <label for="phone_number">Phone Number</label>
+            <input type="text" name="phone_number" placeholder="Enter your phone number" required>
+
+            <label for="address">Address</label>
+            <input type="text" name="address" placeholder="Enter your address" required>
+
+            <input type="submit" value="Register">
+        </form>
+
+        <div class="success-message" id="successMessage" style="display: none;">Profile uploaded successfully!</div>
+    </div>
+
+    <script>
+        const profilePicInput = document.getElementById('profile_pic');
+        const profilePreview = document.getElementById('profilePreview');
+        profilePicInput.addEventListener('change', function() {
+            const file = this.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+
+                reader.onload = function(event) {
+                    profilePreview.setAttribute('src', event.target.result);
+                    profilePreview.style.display = 'block';
+                };
+
+                reader.readAsDataURL(file);
+            }
+        });
+
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            const successMessage = document.getElementById('successMessage');
+            successMessage.style.display = 'block';
+            return false;
+        }
+    </script>
+
+</body>
+</html>
