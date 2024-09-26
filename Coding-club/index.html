@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Registration Form</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
         body {
@@ -11,12 +12,13 @@
             background-image: url("background-image.jpg");
             background-repeat: no-repeat;
             background-size: cover;
+            background-position: center;
+            height: 100vh;
+            margin-top: 400px;
+            margin-bottom: 400px;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 300px;
-            padding: 20px;
         }
         .form-container {
             background-color: rgba(255, 255, 255, 0.9);
@@ -24,6 +26,8 @@
             border-radius: 15px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
             width: 400px;
+            opacity: 0;
+            transform: translateY(-20px);
             animation: slideIn 0.5s forwards;
         }
 
@@ -88,13 +92,6 @@
             border-radius: 8px;
             object-fit: cover;
             border: 2px solid #4A148C;
-        }
-
-        .success-message {
-            color: #4A148C;
-            margin-top: 20px;
-            text-align: center;
-            font-weight: bold;
         }
 
         @media (max-width: 500px) {
@@ -173,6 +170,7 @@
     <script>
         const profilePicInput = document.getElementById('profile_pic');
         const profilePreview = document.getElementById('profilePreview');
+
         profilePicInput.addEventListener('change', function() {
             const file = this.files[0];
 
@@ -190,8 +188,14 @@
 
         function handleFormSubmit(event) {
             event.preventDefault();
-            const successMessage = document.getElementById('successMessage');
-            successMessage.style.display = 'block';
+            
+            Swal.fire({
+                title: 'Success!',
+                text: 'Profile uploaded successfully!',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+
             return false;
         }
     </script>
